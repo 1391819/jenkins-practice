@@ -42,7 +42,10 @@ class Book:
         self.isbn = isbn
 
     def __str__(self):
-        return f"Written by {self.author}, {self.title} is a gripping {self.pages}-page {self.genre} novel. ISBN: {self.isbn}"
+        return (
+            f"Title: {self.title}\nAuthor: {self.author}\nNumber of pages: {self.pages}"
+            + f"\nGenre: {self.genre}\nISBN: {self.isbn}"
+        )
 
     """
     A static method is a method that belongs to the class itself and does not depend on the instance of the class. Unlike regular instance methods that have access to instance-specific data, static methods only have access to the arguments passed to them and other static attributes or methods within the class.    
@@ -71,8 +74,7 @@ class Book:
 
         # raise errors in case of invalid isbns
         if len(isbn) != 13:
-            # raise (ValueError("ISBN must contain 13 digits"))
-            return False
+            raise (ValueError("ISBN must contain 13 digits"))
 
         # get check digit
         check_digit = int(isbn[-1])
@@ -98,7 +100,7 @@ class Book:
         else:
             return False
 
-    def check_author(self, author: str) -> bool:
+    def search(self, author: str) -> bool:
         """Check if specified author is the Book's author
 
         Args:
@@ -107,4 +109,7 @@ class Book:
         Returns:
             bool: True if specified author is Book's author, False otherwise
         """
-        return self.author == author
+        if self.author == author:
+            return True
+        else:
+            return False
