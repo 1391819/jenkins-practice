@@ -70,7 +70,7 @@ class Library:
                 return True
         return False
 
-    def search_books_by_author(self, author: str) -> list[Book]:
+    def search_books_by_author(self, author: str) -> List[Book]:
         """Search for Book instances written by a particular author
 
         Args:
