@@ -1,0 +1,7 @@
+Book('Sample text', 300, '123-4-56-789012-3', 'Fantasy', fromrepr=True, author='Alice Jones')
+Book('Generic title', 125, '321-4-57-787812-3', 'Biography', fromrepr=True, author='John Smith')
+Book('Sample text 2', 254, '213-5-46-779812-3', 'Fantasy', fromrepr=True, author='Alice Jones')
+Book('lorem ipsum', 300, '123-4-56-789012-5', 'sci-fi', fromrepr=True, author='Bob Stevens')
+Book('lorem ipsum 2', 546, '123-4-56-789012-7', 'sci-fi', fromrepr=True, author='Bob Stevens')
+Book('title here', 300, '123-4-56-789032-5', 'fantasy', fromrepr=True, author='Jane Doe')
+Book('insert text', 546, '123-5-66-789012-7', 'fantasy', fromrepr=True, author='Jane Doe')
