@@ -1,8 +1,8 @@
 from .book import Book
-
+from typing import List # this is to avoid problems on Python 3.8 (square brackets type annotations)
 
 class Library:
-    def __init__(self, books: list[Book] = []) -> None:
+    def __init__(self, books: List[Book] = []) -> None:
         """Initialise a Library instance
 
         Args:
