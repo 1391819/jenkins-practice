@@ -1,5 +1,8 @@
 from .book import Book
-from typing import List # this is to avoid problems on Python 3.8 (square brackets type annotations)
+
+# this is to avoid problems on Python 3.8 (square brackets type annotations)
+from typing import List
+
 
 class Library:
     def __init__(self, books: List[Book] = []) -> None:
@@ -55,16 +58,16 @@ class Library:
         """
         for book in self.books:
             if book.isbn == isbn:
-                if new_title:
+                if new_title is not None:
                     book.title = new_title
 
-                if new_pages:
+                if new_pages is not None:
                     book.pages = new_pages
 
-                if new_genre:
+                if new_genre is not None:
                     book.genre = new_genre
 
-                if new_author:
+                if new_author is not None:
                     book.author = new_author
 
                 return True
