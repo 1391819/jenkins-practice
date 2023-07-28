@@ -80,13 +80,17 @@ class Book:
         isbn = isbn[:-1]
 
         # checking that last digit is a number
-        if not check_digit.isdigit() and check_digit != "X":
+        if not check_digit.isdigit():
             return False
 
         sum = 0
 
         # go through the whole ISBN
         for idx, char in enumerate(isbn):
+            # checking if it's digit or not
+            if not char.isdigit():
+                return False
+
             # alternating weights
             if idx % 2 == 0:
                 tmp_sum = int(char) * 1
