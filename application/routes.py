@@ -17,7 +17,7 @@ NOTE:
 
 
 @app.route("/")
-def index():
+def index() -> tuple:
     """Endpoint to retrieve all books in the Library.
 
     Returns:
@@ -31,7 +31,7 @@ def index():
 
 
 @app.route("/add")
-def add_book():
+def add_book() -> tuple:
     """Endpoint to add a Book to the Library.
 
     Returns:
@@ -77,7 +77,7 @@ def add_book():
 
 
 @app.route("/search/<string:author>")
-def search_book(author: str):
+def search_book(author: str) -> tuple:
     """Search for books written by a particular author.
 
     Args:
@@ -99,7 +99,7 @@ def search_book(author: str):
 
 
 @app.route("/update/<string:isbn>")
-def update_book(isbn: str):
+def update_book(isbn: str) -> tuple:
     """Update a book based on its ISBN.
 
     Args:
@@ -139,7 +139,7 @@ def update_book(isbn: str):
 
 
 @app.route("/delete/<string:isbn>")
-def delete_book(isbn: str):
+def delete_book(isbn: str) -> tuple:
     """Delete a book from the library based on its ISBN.
 
     Args:
