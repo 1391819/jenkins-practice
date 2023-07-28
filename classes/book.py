@@ -112,3 +112,17 @@ class Book:
             bool: True if specified author is Book's author, False otherwise
         """
         return self.author == author
+
+    def to_dict(self):
+        """Convert the Book into a dictionary representation
+
+        Returns:
+            dict: A dictionary containing book information
+        """
+        return {
+            "isbn": self.isbn,
+            "title": self.title,
+            "author": self.author,
+            "genre": self.genre,
+            "pages": self.pages,
+        }

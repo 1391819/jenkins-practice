@@ -29,3 +29,14 @@ def test_str():
         str(book2)
         == "Written by Unknown, Generic title is a gripping 125-page Biography novel. ISBN: 321-4-57-787812-3"
     )
+
+
+def test_to_dict():
+    book1 = Book("Sample text", 300, "123-4-56-789012-3", "Fantasy", "Alice Jones")
+    assert book1.to_dict() == {
+        "isbn": "123-4-56-789012-3",
+        "title": "Sample text",
+        "author": "Alice Jones",
+        "genre": "Fantasy",
+        "pages": 300,
+    }
