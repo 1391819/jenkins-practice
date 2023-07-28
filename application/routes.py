@@ -13,6 +13,8 @@ Status codes:
     - 404 NOT FOUND
 """
 
+# TODO: Add more comments
+
 
 @app.route("/")
 def index():
@@ -49,7 +51,7 @@ def add_book():
     # /add?title=The DaVinci Code&pages=592&isbn=978-0307474278&genre=Mystery&author=Dan Brown
 
     title = request.args.get("title")
-    pages = int(request.args.get("pages"))
+    pages = request.args.get("pages")
     isbn = request.args.get("isbn")
     genre = request.args.get("genre")
     author = request.args.get("author")
@@ -60,6 +62,15 @@ def add_book():
     is_valid_isbn = Book.check_isbn(isbn)
     if not is_valid_isbn:
         return jsonify(message=f"ISBN {isbn} is not a valid ISBN"), 404
+
+    if pages:
+        try:
+            pages = int(pages)
+        except ValueError:
+            return (
+                jsonify(message="Invalid value for pages. Pages must be an integer."),
+                400,
+            )
 
     if not author:
         book = Book(title, pages, isbn, genre)
