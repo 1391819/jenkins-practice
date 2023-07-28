@@ -4,6 +4,16 @@ from classes.book import Book
 from flask import request
 
 
+"""
+Status codes:
+    - 200 OK 
+    - 201 CREATED 
+    - 204 NO CONTENT
+    - 400 BAD REQUEST
+    - 404 NOT FOUND
+"""
+
+
 def book_builder(book):
     """Utility function used to get a JSON representation of the book
 
@@ -27,9 +37,9 @@ def index():
     # display all books
 
     if library.books:
-        return [book_builder(book) for book in library.books]
+        return [book_builder(book) for book in library.books], 200
     else:
-        return [], 200
+        return [], 204
         # return "There are no books currently in the library"
 
 
@@ -62,11 +72,11 @@ def add_book():
     author = request.args.get("author")
 
     if not title or not pages or not isbn or not genre:
-        return "Missing required parameters"
+        return "Missing required parameters", 404
 
     is_valid_isbn = Book.check_isbn(isbn)
     if not is_valid_isbn:
-        return f"ISBN {isbn} is not a valid ISBN", 400
+        return f"ISBN {isbn} is not a valid ISBN", 404
 
     if not author:
         book = Book(title, pages, isbn, genre)
@@ -75,7 +85,7 @@ def add_book():
 
     library.add_book(book)
 
-    return [book_builder(book)], 200
+    return [book_builder(book)], 201
 
 
 @app.route("/search/<string:author>")
@@ -98,7 +108,7 @@ def search_book(author: str):
     if author_books:
         return [book_builder(book) for book in author_books], 200
     else:
-        return [], 200
+        return [], 204
         # return "There are no books by the specified author"
 
 
@@ -134,7 +144,7 @@ def update_book(isbn: str):
     ):
         return f"Book with ISBN {isbn} updated successfully", 200
 
-    return f"Book with ISBN {isbn} was not found in the library!", 403
+    return f"Book with ISBN {isbn} was not found in the library!", 404
 
 
 @app.route("/delete/<string:isbn>")
@@ -155,4 +165,4 @@ def delete_book(isbn: str):
     if library.remove_book(isbn):
         return f"Book with ISBN {isbn} removed from library", 200
 
-    return f"Book with ISBN {isbn} was not found in the library", 403
+    return f"Book with ISBN {isbn} was not found in the library", 404
