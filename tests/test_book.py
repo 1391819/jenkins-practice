@@ -1,4 +1,3 @@
-import pytest
 from classes.book import Book
 
 
@@ -12,8 +11,10 @@ def test_check_author():
 
 def test_check_isbn():
     assert Book.check_isbn("978-0-00-821843-0") == True
+    assert Book.check_isbn("9780008218430") == True
     assert not Book.check_isbn("978-0-00-821843-1") == True
-    assert Book.check_isbn("123") == False
+    assert not Book.check_isbn("123") == True
+    assert not Book.check_isbn("978-0-00-821843-A") == True
 
 
 def test_str():

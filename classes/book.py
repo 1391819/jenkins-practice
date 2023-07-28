@@ -75,9 +75,13 @@ class Book:
             return False
 
         # get check digit
-        check_digit = int(isbn[-1])
+        check_digit = isbn[-1]
         # remove check digit from isbn
         isbn = isbn[:-1]
+
+        # checking that last digit is a number
+        if not check_digit.isdigit() and check_digit != "X":
+            return False
 
         sum = 0
 
@@ -93,7 +97,7 @@ class Book:
             sum += tmp_sum
 
         # checking if check_digit is valid or not
-        if (sum + check_digit) % 10 == 0:
+        if (sum + int(check_digit)) % 10 == 0:
             return True
         else:
             return False
