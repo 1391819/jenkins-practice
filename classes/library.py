@@ -15,6 +15,8 @@ class Library:
         Args:
             books (List[Book], optional): List of Book instances. Defaults to None.
         """
+
+        # avoiding to have problems with mutable default args / shared default values
         if books is None:
             books = []
         self.books = books
