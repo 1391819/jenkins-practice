@@ -1,7 +1,7 @@
 from application import app
 from application import library
 from classes.book import Book
-from flask import request
+from flask import request, jsonify
 
 
 """
@@ -14,32 +14,15 @@ Status codes:
 """
 
 
-def book_builder(book):
-    """Utility function used to get a JSON representation of the book
-
-    Args:
-        book (Book): Book to "jsonify"
-
-    Returns:
-        dict: Book information in a dictionary
-    """
-    return {
-        "isbn": book.isbn,
-        "title": book.title,
-        "by": book.author,
-        "genre": book.genre,
-        "pages": book.pages,
-    }
-
-
 @app.route("/")
 def index():
     # display all books
 
     if library.books:
-        return [book_builder(book) for book in library.books], 200
+        books = [book.to_dict() for book in library.books]
+        return jsonify(books), 200
     else:
-        return [], 204
+        return jsonify(message="Library has no books"), 201
         # return "There are no books currently in the library"
 
 
@@ -72,11 +55,11 @@ def add_book():
     author = request.args.get("author")
 
     if not title or not pages or not isbn or not genre:
-        return "Missing required parameters", 404
+        return jsonify(message="Missing required parameters"), 404
 
     is_valid_isbn = Book.check_isbn(isbn)
     if not is_valid_isbn:
-        return f"ISBN {isbn} is not a valid ISBN", 404
+        return jsonify(message=f"ISBN {isbn} is not a valid ISBN"), 404
 
     if not author:
         book = Book(title, pages, isbn, genre)
@@ -85,7 +68,7 @@ def add_book():
 
     library.add_book(book)
 
-    return [book_builder(book)], 201
+    return jsonify(message=f"Book with ISBN {isbn} succesfully added"), 201
 
 
 @app.route("/search/<string:author>")
@@ -106,10 +89,10 @@ def search_book(author: str):
     author_books = library.search_books_by_author(author)
 
     if author_books:
-        return [book_builder(book) for book in author_books], 200
+        books = [book.to_dict() for book in author_books]
+        return jsonify(books), 200
     else:
-        return [], 204
-        # return "There are no books by the specified author"
+        return jsonify(message="There are no books by the specified author"), 201
 
 
 @app.route("/update/<string:isbn>")
@@ -125,7 +108,7 @@ def update_book(isbn: str):
 
     is_valid_isbn = Book.check_isbn(isbn)
     if not is_valid_isbn:
-        return f"ISBN {isbn} is not a valid ISBN", 400
+        return jsonify(message=f"ISBN {isbn} is not a valid ISBN"), 400
 
     new_title = request.args.get("title")
     new_pages = request.args.get("pages")
@@ -133,7 +116,7 @@ def update_book(isbn: str):
     new_author = request.args.get("author")
 
     if not new_title and not new_pages and not new_genre and not new_author:
-        return "You must specify at least one parameter to update", 400
+        return jsonify(message="You must specify at least one parameter to update"), 400
 
     if library.update_book(
         isbn=isbn,
@@ -142,9 +125,9 @@ def update_book(isbn: str):
         new_genre=new_genre,
         new_author=new_author,
     ):
-        return f"Book with ISBN {isbn} updated successfully", 200
+        return jsonify(message=f"Book with ISBN {isbn} updated successfully"), 200
 
-    return f"Book with ISBN {isbn} was not found in the library!", 404
+    return jsonify(message=f"Book with ISBN {isbn} was not found in the library"), 404
 
 
 @app.route("/delete/<string:isbn>")
@@ -160,9 +143,9 @@ def delete_book(isbn: str):
 
     is_valid_isbn = Book.check_isbn(isbn)
     if not is_valid_isbn:
-        return f"ISBN {isbn} is not a valid ISBN", 400
+        return jsonify(message=f"ISBN {isbn} is not a valid ISBN"), 400
 
     if library.remove_book(isbn):
-        return f"Book with ISBN {isbn} removed from library", 200
+        return jsonify(message=f"Book with ISBN {isbn} removed from library"), 200
 
-    return f"Book with ISBN {isbn} was not found in the library", 404
+    return jsonify(message=f"Book with ISBN {isbn} was not found in the library"), 404
