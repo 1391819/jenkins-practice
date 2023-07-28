@@ -68,7 +68,7 @@ def add_book():
             pages = int(pages)
         except ValueError:
             return (
-                jsonify(message="Invalid value for pages. Pages must be an integer."),
+                jsonify(message="Invalid value for pages, it must be digits only"),
                 400,
             )
 

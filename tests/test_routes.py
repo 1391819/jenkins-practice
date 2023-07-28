@@ -38,6 +38,22 @@ def test_add_book(client):
     assert response.status_code == 201
     assert response.json["message"] == "Book with ISBN 978-0061120084 succesfully added"
 
+    # adding a book with no author specified
+    response = client.get(
+        f"/add?title=To Kill a Mockingbird&pages=336&isbn=978-0061120084&genre=Fiction"
+    )
+    assert response.status_code == 201
+    assert response.json["message"] == "Book with ISBN 978-0061120084 succesfully added"
+
+    # adding a book with a pages value not convertable to an integer
+    # no need to use pytest.raises since we used handled the exception
+    # with pytest.raises(ValueError):
+    response = client.get(
+        f"/add?title=To Kill a Mockingbird&pages=AAA&isbn=978-0061120084&genre=Fiction"
+    )
+    assert response.status_code == 400
+    assert response.json["message"] == "Invalid value for pages, it must be digits only"
+
     # adding a book with missing parameters
     response = client.get("/add?title=Title Only")
     assert response.status_code == 404
