@@ -2,6 +2,8 @@ from classes.library import Library
 from classes.book import Book
 import gc
 
+# TODO: Add more comprehensive comments to test units
+
 library = Library()
 
 book = Book(

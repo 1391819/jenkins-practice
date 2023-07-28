@@ -1,5 +1,7 @@
 from classes.book import Book
 
+# TODO: Add more comprehensive comments to test units
+
 
 def test_check_author():
     book1 = Book("Sample text", 300, "123-4-56-789012-3", "Fantasy", "Alice Jones")
