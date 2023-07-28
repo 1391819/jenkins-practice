@@ -1,34 +1,40 @@
+# imports
 from .book import Book
 
 # this is to avoid problems on Python 3.8 (square brackets type annotations)
+# had to be added to perform some practice exercise on an AWS instance
+# that used Ubuntu 20.04 as OS image.
 from typing import List
 
 
+# Library class
 class Library:
-    def __init__(self, books: List[Book] = []) -> None:
-        """Initialise a Library instance
+    def __init__(self, books: List[Book] = None) -> None:
+        """Initialise a Library instance.
 
         Args:
-            books (list[Book], optional): Book instances within the library. Defaults to [].
+            books (List[Book], optional): List of Book instances. Defaults to None.
         """
+        if books is None:
+            books = []
         self.books = books
 
     def add_book(self, book: Book) -> None:
-        """Add a Book instance to the library
+        """Add a Book to the Library.
 
         Args:
-            book (Book): Book to be added
+            book (Book): Book to be added to the Library.
         """
         self.books.append(book)
 
     def remove_book(self, isbn: str) -> bool:
-        """Remove a Book from the library based on ISBN
+        """Remove a Book from the Library based on its ISBN.
 
         Args:
-            isbn (str): ISBN to search and delete
+            isbn (str): ISBN of the Book to search and delete from the Library.
 
         Returns:
-            bool: True if Book was removed from Library, False otherwise
+            bool: True if the Book was removed from the Library, False otherwise.
         """
         for book in self.books:
             if book.isbn == isbn:
@@ -44,17 +50,17 @@ class Library:
         new_genre: str = None,
         new_author: str = None,
     ) -> bool:
-        """Update a book based on the specified isbn
+        """Update a Book in the Library based on its ISBN.
 
         Args:
-            isbn (str): ISBN of the book that needs to be updated
-            new_title (str, optional): New title of the book. Defaults to None.
-            new_pages (int, optional): New number of pages of the book. Defaults to None.
-            new_genre (str, optional): New genre of the book. Defaults to None.
-            new_author (str, optional): New author of the book. Defaults to None.
+            isbn (str): ISBN of the Book to update
+            new_title (str, optional): New title of the Book. Defaults to None.
+            new_pages (int, optional): New number of pages of the Book. Defaults to None.
+            new_genre (str, optional): New genre of the Book. Defaults to None.
+            new_author (str, optional): New author of the Book. Defaults to None.
 
         Returns:
-            bool: True if the book was updated succesfully, False otherwise
+            bool: True if the Book was updated, False otherwise.
         """
         for book in self.books:
             if book.isbn == isbn:
@@ -74,13 +80,13 @@ class Library:
         return False
 
     def search_books_by_author(self, author: str) -> List[Book]:
-        """Search for Book instances written by a particular author
+        """Search for Books written by a particular author.
 
         Args:
-            author (str): Author to be searched
+            author (str): Name of the author that we are looking for.
 
         Returns:
-            list[Book]: List of Book instances written by the particular author
+            List[Book]: List of Books written by the specified author or an empty list if no Books were found.
         """
         books_by_author = []
 
